@@ -3,6 +3,11 @@ package com.example.demo;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.example.demo.filter.CustomFilter;
+import com.example.demo.filter.CustomFilter2;
 
 @EnableWebSecurity
 public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -16,7 +21,11 @@ public class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .formLogin()
         .and()
-        .httpBasic();
+        .httpBasic()
+        .and()
+        .addFilterBefore(new CustomFilter(), UsernamePasswordAuthenticationFilter.class)
+        .addFilterAfter(new CustomFilter2(), UsernamePasswordAuthenticationFilter.class);
+        
     }
 
 }
