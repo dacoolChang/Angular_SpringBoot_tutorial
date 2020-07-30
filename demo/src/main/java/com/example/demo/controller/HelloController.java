@@ -22,25 +22,48 @@ import com.example.demo.data.bean.UsersBean;
 @RequestMapping(value = "/", produces = "application/json")
 public class HelloController {
 	
+	@Autowired
+	UsersBean users;
+	
 	Logger logger = LoggerFactory.getLogger(HelloController.class);
 	@GetMapping("/hello")
-	public ResponseEntity hello() {
+	public ResponseEntity<List<User>> hello() {
 		logger.info("Hello World Controller");
-		return ResponseEntity.ok("");
+		return ResponseEntity.ok(users.getUsers());
 	}
 	
 	@PutMapping("/hello")
 	public ResponseEntity<Result> updateHello(@RequestBody String description) {
 		logger.info("Update Hello World Controller");
-		Result result = new Result(); 
-		result.setCode(1);
-		result.setMesg("update user description success!!");
-		return ResponseEntity.ok(result);
+		String[] dataSplit = description.split(",");
+		if (dataSplit.length > 1) {
+			for (User u : users.getUsers()) {
+				if(dataSplit[0].equalsIgnoreCase(u.getName())) {
+					u.setDescription(dataSplit[1]);
+					Result result = new Result(); 
+					result.setCode(0);
+					result.setMesg("update user description success!!");
+					return ResponseEntity.ok(result);
+				}
+			}
+			Result result = new Result(); 
+			result.setCode(0);
+			result.setMesg("There is no user name is "+dataSplit[0]);
+			return ResponseEntity.ok(result);
+
+		} else {
+			Result result = new Result(); 
+			result.setCode(1);
+			result.setMesg("update user description failed!!");
+			return ResponseEntity.ok(result);
+		}
+		
 	}
 	
 	@PostMapping("/hello")
 	public ResponseEntity<Result> addHello(@RequestBody String name) {
 		logger.info("Add Hello World Controller");
+		users.getUsers().add(new User(name));
 		Result result = new Result(); 
 		result.setCode(0);
 		result.setMesg("Add user success!!!");
