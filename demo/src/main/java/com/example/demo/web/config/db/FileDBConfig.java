@@ -31,8 +31,6 @@ public class FileDBConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name.filedb"));
         dataSource.setUrl(env.getProperty("spring.datasource.url.filedb"));
-//        dataSource.setUsername("PPB");
-//        dataSource.setPassword("PPB_Soft!");
         return dataSource;
     }
     
