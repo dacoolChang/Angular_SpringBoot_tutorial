@@ -5,8 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.example.demo.repository.BaseRepositoryFactoryBean;
-
 @SpringBootApplication(scanBasePackages= {"com.example.demo", "com.example.demo.data.bean", "com.example.demo.controller", "com.example.demo.repository","com.example.demo.service"})
 public class DemoApplication {
 

@@ -6,9 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
-
-@Component
 @Entity
 @Table(name = "DB_CLIENT")
 public class DbUser {
@@ -16,6 +13,14 @@ public class DbUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	private String description = "This is a description";
+	
+	public DbUser() {
+	}
+	
+	public DbUser(String name) {
+		this.name = name;
+	}
 	
 	public String getName() {
 		return name;
@@ -23,4 +28,11 @@ public class DbUser {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }

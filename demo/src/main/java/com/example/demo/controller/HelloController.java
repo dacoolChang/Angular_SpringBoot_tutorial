@@ -35,8 +35,8 @@ public class HelloController {
 		}
 		System.out.println(userService.getUsers());
 		logger.info("Hello World Controller");
-//		return ResponseEntity.ok(users.getUsers());
-		return ResponseEntity.ok("");
+		return ResponseEntity.ok(userService.getUsers());
+//		return ResponseEntity.ok("");
 	}
 	
 	@PutMapping("/hello")
@@ -44,15 +44,17 @@ public class HelloController {
 		logger.info("Update Hello World Controller");
 		String[] dataSplit = description.split(",");
 		if (dataSplit.length > 1) {
-//			for (User u : users.getUsers()) {
-//				if(dataSplit[0].equalsIgnoreCase(u.getName())) {
-//					u.setDescription(dataSplit[1]);
-//					Result result = new Result(); 
-//					result.setCode(0);
-//					result.setMesg("update user description success!!");
-//					return ResponseEntity.ok(result);
-//				}
-//			}
+			List<DbUser> userList = userService.getUsers();
+			for (DbUser u : userService.getUsers()) {
+				if(dataSplit[0].equalsIgnoreCase(u.getName())) {
+					u.setDescription(dataSplit[1]);
+					Result result = new Result(); 
+					result.setCode(0);
+					result.setMesg("update user description success!!");
+					userService.save(userList);
+					return ResponseEntity.ok(result);
+				}
+			}
 			Result result = new Result(); 
 			result.setCode(0);
 			result.setMesg("There is no user name is "+dataSplit[0]);
@@ -70,7 +72,8 @@ public class HelloController {
 	@PostMapping("/hello")
 	public ResponseEntity<Result> addHello(@RequestBody String name) {
 		logger.info("Add Hello World Controller");
-//		users.getUsers().add(new User(name));
+		userService.getUsers();
+		userService.save(new DbUser(name));
 		Result result = new Result(); 
 		result.setCode(0);
 		result.setMesg("Add user success!!!");

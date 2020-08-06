@@ -14,13 +14,20 @@ public class DbUserService {
 	DbUserRepository userRep;
 	
 	public void initialData() {
-		DbUser user = new DbUser();
-		user.setName("Elmo");
+		DbUser user = new DbUser("Elmo");
 		userRep.save(user);
 	}
 	
 	public List<DbUser> getUsers() {
 		return userRep.findAll();
+	}
+	
+	public void save(DbUser u) {
+		userRep.save(u);
+	}
+	
+	public void save(List<DbUser> u) {
+		userRep.saveAll(u);
 	}
 	
 }
