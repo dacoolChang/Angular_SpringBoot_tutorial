@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { TimeInterval } from 'rxjs';
-
+import { HelloService } from '../hello.service'
 
 @Component({
   selector: 'app-hello',
@@ -9,18 +7,21 @@ import { TimeInterval } from 'rxjs';
   styleUrls: ['./hello.component.css']
 })
 export class HelloComponent implements OnInit{
-
-  data: number;
-  interval;
-  constructor(private router: Router) { 
-    this.data = 100;
-    this.interval = setInterval(() => {
-        this.data+=1;
-      }
-    ,1000);
+  data: String = "";
+  constructor(private helloService:HelloService) { 
+    helloService.getUser().subscribe(
+      users => { // success
+        users.forEach(element => {
+          this.data += element.name+","+element.description;
+        });
+        console.log("success")
+      }, error => { // failed
+        console.log("error")
+      }, () => {
+        console.log("finally")
+      } // complete
+    );
   }
-
-
   ngOnInit() {
   }
 }

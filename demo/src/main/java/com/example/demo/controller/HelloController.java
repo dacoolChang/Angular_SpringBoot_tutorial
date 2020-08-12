@@ -21,25 +21,23 @@ import com.example.demo.dbfield.DbUser;
 import com.example.demo.service.DbUserService;
 
 @RestController
-@RequestMapping(value = "/", produces = "application/json")
+@RequestMapping(value = "/rest", produces = "application/json")
 public class HelloController {
 	
 	@Autowired
 	DbUserService userService;
 	
 	Logger logger = LoggerFactory.getLogger(HelloController.class);
-	@GetMapping("/hello")
+	@GetMapping("/user")
 	public ResponseEntity hello() {
 		for (DbUser user:userService.getUsers()) {
 			System.out.println(user.getName());
 		}
-		System.out.println(userService.getUsers());
 		logger.info("Hello World Controller");
 		return ResponseEntity.ok(userService.getUsers());
-//		return ResponseEntity.ok("");
 	}
 	
-	@PutMapping("/hello")
+	@PutMapping("/user")
 	public ResponseEntity<Result> updateHello(@RequestBody String description) {
 		logger.info("Update Hello World Controller");
 		String[] dataSplit = description.split(",");
@@ -69,7 +67,7 @@ public class HelloController {
 		
 	}
 	
-	@PostMapping("/hello")
+	@PostMapping("/user")
 	public ResponseEntity<Result> addHello(@RequestBody String name) {
 		logger.info("Add Hello World Controller");
 		userService.getUsers();
